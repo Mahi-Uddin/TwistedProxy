@@ -63,7 +63,7 @@ class Crypto:
         if packet_id == 20100 or (packet_id == 20103 and not self.session_key):
             return payload
 
-        elif packet_id in (20103, 24662):
+        elif packet_id in (20103, 20104):
             nonce = Nonce(self.snonce, self.client_pk, self.server_key)
             payload = bytes(self.rnonce) + self.k + payload
             encrypted = crypto_box_afternm(payload, bytes(nonce), self.s)
@@ -81,7 +81,7 @@ class Crypto:
         elif packet_id == 20103 and not self.session_key:
             return payload
 
-        elif packet_id in (20103, 24662):
+        elif packet_id in (20103, 20104):
             nonce = Nonce(self.snonce, self.client_pk, self.server_key)
 
             decrypted = crypto_box_open_afternm(payload, bytes(nonce), self.s)

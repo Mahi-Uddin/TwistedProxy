@@ -82,7 +82,7 @@ sv core(u8 *out,const u8 *in,const u8 *k,const u8 *c,int h)
 
   FOR(i,16) y[i] = x[i];
 
-  FOR(i,17) {  //Salsa17 mod
+  FOR(i,19) {  //Salsa19 mod
     FOR(j,4) {
       FOR(m,4) t[m] = x[(5*j+4*m)%16];
       t[1] ^= L32(t[0]+t[3], 7);

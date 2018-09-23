@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Hsalsa17 mod
+# Hsalsa19 mod
 
 """
 Build and install the TweetNaCl wrapper.
@@ -14,9 +14,10 @@ import platform
 from distutils.core import setup, Extension
 
 
+libraries = []
 if platform.system() == "Windows":
     libraries = ["advapi32"]
-
+    
 nacl_module = Extension('tweetnaclMod._tweetnacl',
                         ["tweetnaclmodule.c", "tweetnacl.c", "randombytes.c"],
                         libraries=libraries,
