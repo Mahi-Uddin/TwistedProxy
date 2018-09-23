@@ -24,6 +24,7 @@ However the proxy accept some optionals arguments that are:
 ### Credits
 
 [Misha](https://github.com/MISHA-CRDEV) - For the crypto workaround
+
 [Galaxy1036](https://github.com/Galaxy1036/) - For the base [proxy](https://github.com/Galaxy1036/TwistedProxy) and help in crypto
 
 ### PS
