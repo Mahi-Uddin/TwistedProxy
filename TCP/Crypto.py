@@ -25,6 +25,7 @@ class Crypto:
         self.k = None
 
     def encrypt_client_packet(self, packet_id, payload):
+        # self.print_infos()
         if packet_id == 10100:
             return payload
 
@@ -37,6 +38,7 @@ class Crypto:
             return crypto_box_afternm(payload, bytes(self.snonce), self.k)
 
     def decrypt_client_packet(self, packet_id, payload):
+        # self.print_infos()
         if packet_id == 10100:
             return payload
 
@@ -49,7 +51,7 @@ class Crypto:
 
             self.nonce = Nonce(clientKey=self.client_pk, serverKey=self.server_key)
             self.s = crypto_box_beforenm(self.server_key, self.client_sk)
-
+            
             decrypted = crypto_box_open_afternm(payload, bytes(self.nonce), self.s)
             self.snonce = Nonce(decrypted[24:48])
 
@@ -60,6 +62,7 @@ class Crypto:
             return crypto_box_open_afternm(payload, bytes(self.snonce), self.k)
 
     def encrypt_server_packet(self, packet_id, payload):
+        # self.print_infos()
         if packet_id == 20100 or (packet_id == 20103 and not self.session_key):
             return payload
 
@@ -83,14 +86,24 @@ class Crypto:
 
         elif packet_id in (20103, 20104):
             nonce = Nonce(self.snonce, self.client_pk, self.server_key)
-
             decrypted = crypto_box_open_afternm(payload, bytes(nonce), self.s)
 
             self.rnonce = Nonce(decrypted[:24])
             self.k = decrypted[24:56]
-
             return decrypted[56:]
 
         else:
             self.rnonce.increment()
             return crypto_box_open_afternm(payload, bytes(self.rnonce), self.k)
+
+    def print_infos(self):
+        if self.nonce:
+            print('N:' + bytes(self.nonce).hex())
+        if self.snonce:
+            print('S:' + bytes(self.snonce).hex())
+        if self.rnonce:
+            print('R:' + bytes(self.rnonce).hex())
+        if self.k:
+            print('K:' + bytes(self.k).hex())
+        if self.s:
+            print('SK:' + bytes(self.s).hex())
